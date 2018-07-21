@@ -9,7 +9,7 @@ class animation:
         self.filename = filename
         self.size = size
         self.writer = imageio.get_writer(self.filename, mode='I')
-        self.pbar
+        self.pbar = pbar
 
     def __make_animation_from_raw_list__(self, figList):
         for i, figure in tqdm(enumerate(figList), total=len(figList), disable=not self.pbar):
