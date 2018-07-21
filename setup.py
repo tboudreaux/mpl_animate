@@ -4,7 +4,7 @@ from os import path
 HERE = path.abspath(path.dirname(__file__))
 
 setup(name='mplEasyAnimate',
-      version='0.1',
+      version='0.1.1',
       description='Super Simple Library for matplotlib animation',
       url='https://github.com/tboudreaux/mpl_animate',
       author='Thomas Boudreaux',
