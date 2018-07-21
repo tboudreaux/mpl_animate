@@ -84,7 +84,7 @@ for i, coord in enumerate(guass):
     figList.append(fig)
     if i % 10 == 0:
         anim.add_frames(figList)
-        map(plt.close, figList)
+        [plt.close(x) for x in figList]
         figList = list()
 
 anim.close()
