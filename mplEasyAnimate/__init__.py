@@ -1,1 +1,1 @@
-from .animate import animation
+from .animate import animation, AutoAnimation

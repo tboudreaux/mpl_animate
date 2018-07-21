@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from mplEasyAnimate import animation
+from mplEasyAnimate import animation, AutoAnimation
 
 figList = list()
 filename = 'TestAnimation.mp4'
@@ -11,12 +11,12 @@ N = 50
 guass = np.random.normal(size=(t, 2, N))
 
 
+anim = AutoAnimation(filename, t, framebuffer=5, pbar=True)
 for coord in guass:
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     ax.plot(coord[0], coord[1], 'o')
-    figList.append(fig)
+    anim.add_frame(fig)
 
-animation(filename, figList)
-
+print('HERE')
 
 
