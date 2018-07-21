@@ -4,7 +4,7 @@ I wanted to make a plot, then I wanted that plot to move into another plot. That
 
 ## Adding Frames all at once
 
-mplEasyAnimate allow you to build up a list of matplot lib figures and turn them into a animation. You can send a full list in, this works well for small numbers of figures.
+mplEasyAnimate allow you to build up a list of matplotlib figures and turn them into an animation. You can send a full list in, this works well for small numbers of figures.
 
 ```python
 import matplotlib.pyplot as plt
@@ -61,7 +61,7 @@ Basically this keeps jupyter from rendering every figure you make.
 
 
 ## Dynamically Adding Frames
-However, matplotlib will get uphappy if you have too many figures open, so I reccoment that for more than say 10 figures you dynamically add them (the figures) to the animation instead of doing it all at the end. See below
+However, matplotlib will get uphappy if you have too many figures open at onece. I reccomend that for more than say 10 figures you dynamically add them (the figures) to the animation instead of doing it all at the end. See below
 
 ```python
 import matplotlib.pyplot as plt
