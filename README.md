@@ -77,15 +77,16 @@ N = 50
 guass = np.random.normal(size=(t, 2, N))
 
 anim = animation(filename)
+figList = list()
 for i, coord in enumerate(guass):
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     ax.plot(coord[0], coord[1], 'o')
     figList.append(fig)
     if i % 10 == 0:
-        anim.add_frams(figList)
-        [x.close() for x in figList]
+        anim.add_frames(figList)
+        map(plt.close, figList)
         figList = list()
-    
+
 anim.close()
 ```
 
