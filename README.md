@@ -2,6 +2,19 @@
 
 I wanted to make a plot, then I wanted that plot to move into another plot. That was hard to do, then I foung imageio. But that was slow cause I had to save every figure to disk, then I rememberd that memory existed, then it was faster. Now I have packeged this so it is super easy, now we are here.
 
+## Installation
+You can either clone the repository and install it or install it via pip
+
+```bash
+git clone https://github.com/tboudreaux/mpl_animate.git
+cd mpl_animate
+python setup.py install
+```
+or 
+```bash
+pip install mplEasyAnimate
+```
+
 ## Adding Frames all at once
 
 mplEasyAnimate allow you to build up a list of matplotlib figures and turn them into an animation. You can send a full list in, this works well for small numbers of figures.
