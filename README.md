@@ -99,7 +99,9 @@ for i, coord in enumerate(guass):
         anim.add_frames(figList)
         [plt.close(x) for x in figList]
         figList = list()
-
+        
+        
+plt.close('all')
 anim.close()
 ```
 
