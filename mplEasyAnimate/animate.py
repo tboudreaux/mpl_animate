@@ -13,6 +13,7 @@ class animation:
         self.writer = imageio.get_writer(self.filename, mode='I', macro_block_size=self.mbs)
         self.pbar = pbar
         self.frame_number = 0
+        self.closed = False
 
 
     def __scale_to_mbs_frame__(self, img):
@@ -41,6 +42,7 @@ class animation:
         self.__make_animation_from_raw_list__([frame])
 
     def close(self):
+        self.closed = True
         self.writer.close()
 
     def __del__(self):
@@ -69,26 +71,21 @@ class AutoAnimation:
         if self.total_frames <= self.total:
             self.frame_list.append(frame)
             if self.total_frames % self.frame_buffer == 0:
-                print(self.frame_list)
                 self.anim.add_frames(self.frame_list)
-                plt.close('all')
                 self.frame_list = list()
                 if self.pbar:
                     self.progress_bar.update(self.frame_buffer)
 
             if self.total_frames == self.total:
                 self.anim.close()
-                print('Here A')
-                plt.close('all')
-                print('Here B')
                 self.frame_list = list()
-                print('Here C')
         else:
             raise IndexError('Cannot add frame {} to animation with max frames {}'.format(self.total_frames, self.total))
 
     def __del__(self):
-        self.anim.add_frames(self.frame_list)
-        plt.close('all')
+        if not self.anim.closed:
+            self.anim.add_frames(self.frame_list)
+            self.anim.close()
         del(self.frame_list)
 
 
