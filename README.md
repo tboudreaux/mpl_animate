@@ -74,7 +74,7 @@ Basically this keeps jupyter from rendering every figure you make.
 
 
 ## Dynamically Adding Frames
-However, matplotlib will get uphappy if you have too many figures open at onece. I reccomend that for more than say 10 figures you dynamically add them (the figures) to the animation instead of doing it all at the end. See below
+However, matplotlib will get uphappy if you have too many figures open at once. I reccomend that for more than say 10 figures you dynamically add them (the figures) to the animation instead of doing it all at the end. See below
 
 ```python
 import matplotlib.pyplot as plt
