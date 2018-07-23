@@ -3,7 +3,7 @@
 I wanted to make a plot, then I wanted that plot to move into another plot. That was hard to do, then I foung imageio. But that was slow cause I had to save every figure to disk, then I rememberd that memory existed, then it was faster. Now I have packeged this so it is super easy, now we are here.
 
 ## Installation
-You can either clone the repository and install it or install it via pip. Installing from the repository will get you the latest, possible broken, version. The pypi version is much more likley to be working, so if possible I recommend installing with pip.
+You can either clone the repository and install it or install it via pip. Installing from the repository will get you the latest, possiblly broken, version. The pypi version is much more likley to be working, so if possible I recommend installing with pip.
 
 ```bash
 git clone https://github.com/tboudreaux/mpl_animate.git
