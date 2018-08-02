@@ -68,3 +68,4 @@ target/
 *.ipynb*
 
 push2pip.sh
+*.test.py
