@@ -106,3 +106,26 @@ anim.close()
 ```
 
 here every 10 frames I add all the frames to the animation and then I flush the buffer at the end to make sure that the animation is readable.
+
+## AutoAnimations
+AutoAnimations are still (honestly like this entire project) a work in progress. However, they are eventually ment to be the main way that the user interfaces with mplEasyAnimate. The basic idea is that you pass an AutoAnimation one frame at a time and it will automatically deal with buffereing them and writing them to memory for you. Further down the line the goal is to make that an async processes to further limit overhead and hopefully make animations go faster (they still take sooo long to produce!). An example of how to use AutoAnimations is below:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import mplEasyAnimate as mple
+from tqdm import tqdm
+
+
+def mkdata():
+    return np.linspace(0, 10, 10), np.random.uniform(size=(10))
+
+
+anim = mple.AutoAnimation('Test2.mp4', 10, framebuffer=5, pbar=True)
+for i in range(10):
+    fig, ax = plt.subplots(1, 1)
+    x, y = mkdata()
+    ax.plot(x, y)
+    anim.add_frame(fig)
+    plt.close(fig)
+anim.close()
+```
