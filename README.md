@@ -134,7 +134,7 @@ This should output something that looks like <br>
 ![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/example.gif?raw=true)
 
 Another example can be seen here, this shows three views of a the evolution of a Globular Cluster through a couple Mega Years <br>
-![Alt Text](gifs.com/gif/evolution-of-a-globular-cluster-through-approximately-180-myr-JqpPV2)
+![Alt Text](https://j.gifs.com/JqpPV2.gif)
 
 ## Documentation
 I generally describe myself as a crazy script gibbon, meaning I have terrible development practices. I am far to lazy to learn how to use a proper documentation tool like Sphix so I have coppied all the pydoc output here, it can also be found in the docs directory in nice, easy to read, ASCII files. 
