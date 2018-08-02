@@ -133,7 +133,7 @@ anim.close()
 ## Documentation
 I generally describe myself as a crazy script gibbon, meaning I have terrible development practices. I am far to lazy to learn how to use a proper documentation tool like Sphix so I have coppied all the pydoc output here, it can also be found in the docs directory in nice, easy to read, ASCII files. 
 
-
+<pre>
 mplEasyAnimate.animation = class animation(builtins.object)
  |  Animation class. This class requires will take in a matplotib figure
  |  object and add it to an imageio open video file.
@@ -187,7 +187,8 @@ mplEasyAnimate.animation = class animation(builtins.object)
  |
  |  __weakref__
  |      list of weak references to the object (if defined)
-
+</pre>
+<pre>
 mplEasyAnimate.autoAnimation = class autoAnimation(builtins.object)
  |  AutoAnimation class. This class requires will take in a matplotib figure
  |  object and add it to an frame buffer. The frame buffer will get dumped into
@@ -239,3 +240,4 @@ mplEasyAnimate.autoAnimation = class autoAnimation(builtins.object)
  |
  |  __weakref__
  |      list of weak references to the object (if defined)
+</pre>
