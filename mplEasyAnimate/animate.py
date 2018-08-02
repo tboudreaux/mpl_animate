@@ -65,28 +65,45 @@ class AutoAnimation:
         if self.pbar:
             self.progress_bar = tqdm(total=total)
         self.total = total
+        self.closed = False
+        self.has_frames = False
+        self.buffered_frames = False
 
     def add_frame(self, frame):
-        self.total_frames += 1
-        if self.total_frames <= self.total:
-            self.frame_list.append(frame)
-            if self.total_frames % self.frame_buffer == 0:
-                self.anim.add_frames(self.frame_list)
-                self.frame_list = list()
-                if self.pbar:
-                    self.progress_bar.update(self.frame_buffer)
-
-            if self.total_frames == self.total:
-                self.anim.close()
-                self.frame_list = list()
+        if not self.closed:
+            self.has_frames = True
+            self.total_frames += 1
+            if self.total_frames <= self.total:
+                self.frame_list.append(frame)
+                self.buffered_frames = True
+                if self.total_frames % self.frame_buffer == 0:
+                    self.anim.add_frames(self.frame_list)
+                    self.frame_list = list()
+                    self.buffered_frames = False
+                    if self.pbar:
+                        self.progress_bar.update(self.frame_buffer)
+                if self.total_frames == self.total:
+                    self.close()
+            else:
+                raise IndexError('Cannot add frame {} to animation with max frames {}'.format(self.total_frames, self.total))
         else:
-            raise IndexError('Cannot add frame {} to animation with max frames {}'.format(self.total_frames, self.total))
+            raise EnvironmentError('AutoAnimation of size {} has been closed, no more frames may be added'.format(self.total_frames))
 
-    def __del__(self):
-        if not self.anim.closed:
-            self.anim.add_frames(self.frame_list)
+    def __len__(self):
+        return self.total_frames
+
+    def close(self):
+        if not self.closed:
+            if self.buffered_frames:
+                self.anim.add_frames(self.frame_list)
+                del(self.frame_list)
             self.anim.close()
-        del(self.frame_list)
+            self.progress_bar.close()
+
+            self.closed = True
+            
+    def __del__(self):
+        self.close()
 
 
 
