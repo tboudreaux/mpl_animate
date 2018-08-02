@@ -129,3 +129,115 @@ for i in range(10):
     plt.close(fig)
 anim.close()
 ```
+
+## Documentation
+I generally describe myself as a crazy script gibbon, meaning I have terrible development practices. I am far to lazy to learn how to use a proper documentation tool like Sphix so I have coppied all the pydoc output here, it can also be found in the docs directory in nice, easy to read, ASCII files. 
+
+<pre>
+mplEasyAnimate.animation = class animation(builtins.object)
+ |  Animation class. This class requires will take in a matplotib figure
+ |  object and add it to an imageio open video file.
+ |
+ |  Attributes:
+ |      filename: Filename to write animation too [str]
+ |      size: X, Y dimensions of image (x, y) [float tuple] [default first frame size]
+ |      pbar: Use tqdm progress bar [bool] [default False]
+ |      mbs: image macro_block_size to use [int] [default 16]
+ |
+ |  Methods defined here:
+ |
+ |  __del__(self)
+ |      Invocation of safe close on descope of animation object.
+ |
+ |  __init__(self, filename, size=None, pbar=False, mbs=16)
+ |      Initialize self.  See help(type(self)) for accurate signature.
+ |
+ |  __make_animation_from_raw_list__(self, frameList)
+ |      Given list of matplotlib figures add them to animatio.
+ |
+ |      Args:
+ |          frameList: List of matplotlib figures [list of figure objects]
+ |
+ |  __repr__(self)
+ |      String Representation.
+ |
+ |  __scale_to_mbs_frame__(self, img)
+ |      Rescale image to be compatible with macro_block_scale.
+ |
+ |  add_frame(self, frame)
+ |      User facing call to add single frame.
+ |
+ |      Args:
+ |          frame: matplotlig figure to be added to animation [figure]
+ |
+ |  add_frames(self, frameList)
+ |      User facing call to add list of frames.
+ |
+ |      Args:
+ |          frameList: List of matplotlib figures [list of figure objects]
+ |
+ |  close(self)
+ |      Safe close of animation.
+ |
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+</pre>
+<pre>
+mplEasyAnimate.autoAnimation = class autoAnimation(builtins.object)
+ |  AutoAnimation class. This class requires will take in a matplotib figure
+ |  object and add it to an frame buffer. The frame buffer will get dumped into
+ |  an Imageio open video file once it is full.
+ |
+ |  Attributes:
+ |      filename: Filename to write animation too [str]
+ |      total: The total number of frames that will be in the final animation [int]
+ |      size: X, Y dimensions of image (x, y) [float tuple] [default first frame size]
+ |      framebuffer: The size of the framebuffer to use [int] [default 10]
+ |      pbar: Use tqdm progress bar [bool] [default False]
+ |      mbs: image macro_block_size to use [int] [default 16]
+ |
+ |  Methods defined here:
+ |
+ |  __del__(self)
+ |      Invocation of safe close on descope of animation object.
+ |
+ |  __init__(self, filename, total, pbar=False, size=None, framebuffer=10, mbs=16)
+ |      Initialize self.  See help(type(self)) for accurate signature.
+ |
+ |  __len__(self)
+ |      len overload
+ |
+ |      Returns:
+ |          total number of frames currently in AutoAnimation
+ |
+ |  __repr__(self)
+ |      Auto Animation repr, returns composed animation repr.
+ |
+ |  add_frame(self, frame)
+ |      User Facing method to add frame to AutoAnimation
+ |
+ |      Args:
+ |          frame: matplotlig figure to become nth frame in animation [figure]
+ |
+ |      Raises:
+ |          IndexError: If you try and add more frames than total to and AutoAnimation is Open
+ |          EnviromentError: If you try and add a frame when AutoAnimation has closed
+ |
+ |  close(self)
+ |      Safe Termination of AutoAnimation, no more frames can be added once this is called.
+ |
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+</pre>
