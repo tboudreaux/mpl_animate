@@ -130,7 +130,7 @@ for i in range(10):
 anim.close()
 ```
 
-This should output something that looks like
+This should output something that looks like <br>
 ![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/example.gif?raw=true)
 
 ## Documentation
