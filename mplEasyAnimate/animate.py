@@ -2,7 +2,6 @@ import io
 import imageio
 from scipy.misc import imresize
 from tqdm import tqdm
-import matplotlib.pyplot as plt
 
 
 class animation:
