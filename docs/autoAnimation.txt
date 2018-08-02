@@ -1,0 +1,54 @@
+Help on class autoAnimation in mplEasyAnimate:
+
+mplEasyAnimate.autoAnimation = class autoAnimation(builtins.object)
+ |  AutoAnimation class. This class requires will take in a matplotib figure
+ |  object and add it to an frame buffer. The frame buffer will get dumped into
+ |  an Imageio open video file once it is full.
+ |  
+ |  Attributes:
+ |      filename: Filename to write animation too [str]
+ |      total: The total number of frames that will be in the final animation [int]
+ |      size: X, Y dimensions of image (x, y) [float tuple] [default first frame size]
+ |      framebuffer: The size of the framebuffer to use [int] [default 10]
+ |      pbar: Use tqdm progress bar [bool] [default False]
+ |      mbs: image macro_block_size to use [int] [default 16]
+ |  
+ |  Methods defined here:
+ |  
+ |  __del__(self)
+ |      Invocation of safe close on descope of animation object.
+ |  
+ |  __init__(self, filename, total, pbar=False, size=None, framebuffer=10, mbs=16)
+ |      Initialize self.  See help(type(self)) for accurate signature.
+ |  
+ |  __len__(self)
+ |      len overload
+ |      
+ |      Returns:
+ |          total number of frames currently in AutoAnimation
+ |  
+ |  __repr__(self)
+ |      Auto Animation repr, returns composed animation repr.
+ |  
+ |  add_frame(self, frame)
+ |      User Facing method to add frame to AutoAnimation
+ |      
+ |      Args:
+ |          frame: matplotlig figure to become nth frame in animation [figure]
+ |      
+ |      Raises:
+ |          IndexError: If you try and add more frames than total to and AutoAnimation is Open
+ |          EnviromentError: If you try and add a frame when AutoAnimation has closed
+ |  
+ |  close(self)
+ |      Safe Termination of AutoAnimation, no more frames can be added once this is called.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+

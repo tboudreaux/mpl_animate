@@ -1,1 +1,5 @@
-from .animate import animation, AutoAnimation
+"""
+mplEasyAnimate
+"""
+from .animate import animation, autoAnimation
+
