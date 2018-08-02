@@ -101,6 +101,9 @@ class AutoAnimation:
             self.progress_bar.close()
 
             self.closed = True
+
+    def __repr__(self):
+        return str(self.anim)
             
     def __del__(self):
         self.close()
