@@ -2,6 +2,8 @@ import io
 import imageio
 from scipy.misc import imresize
 from tqdm import tqdm
+from moviepy.editor import VideoClip
+from moviepy.video.io.bindings import mplfig_to_npimage
 
 
 class animation:
@@ -14,16 +16,42 @@ class animation:
         size: X, Y dimensions of image (x, y) [float tuple] [default first frame size]
         pbar: Use tqdm progress bar [bool] [default False]
         mbs: image macro_block_size to use [int] [default 16]
+        mode: use imagio or moviepy [str] [default m]
+              m -> moviepy [generally faster]
+              i -> imagieo
     """
-    def __init__(self, filename, size=None, pbar=False, mbs=16):
+    def __init__(self, filename, size=None, pbar=False, mbs=16, mode='m'):
 
         self.filename = filename
         self.size = size
         self.mbs = mbs
+
+        if not self.__check_mode__(mode):
+            raise AttributeError("mode {} not recogninzed. Valid modes are 'm' for moviePy and 'i' for imageio")
+        
+        self.mode = mode
         self.writer = imageio.get_writer(self.filename, mode='I', macro_block_size=self.mbs)
         self.pbar = pbar
         self.frame_number = 0
         self.closed = False
+    
+
+    @staticmethod
+    def __check_mode__(mode):
+        """
+        Check if a mode is a valid mode.
+        
+        Args:
+            mode: mode to check [str]
+
+        Returnes:
+            True if mode is valid ('m' or 'i') 
+            False is mode is invalid
+        """
+        if mode == 'm' or mode == 'i':
+            return True
+        else:
+            return False
 
     def __scale_to_mbs_frame__(self, img):
         """Rescale image to be compatible with macro_block_scale."""
@@ -31,9 +59,9 @@ class animation:
         ynew = img.shape[1] + self.mbs - img.shape[1]%self.mbs
         return imresize(img, (xnew, ynew))
 
-    def __make_animation_from_raw_list__(self, frameList):
+    def __make_animation_from_raw_list_i__(self, frameList):
         """
-        Given list of matplotlib figures add them to animatio.
+        Given list of matplotlib figures add them to animatio in mode i.
 
         Args:
             frameList: List of matplotlib figures [list of figure objects]
@@ -51,6 +79,25 @@ class animation:
             buf.close()
             self.frame_number += 1
 
+    def __make_animation_from_raw_list_m__(self, frameList):
+        """
+        Given list of matplotlib figures add them to animatio in mode m.
+
+        Args:
+            frameList: List of matplotlib figures [list of figure objects]
+        """
+        def frame_time_map(frameList, duration, frameRate):
+            mapedFrameList = np.repeat(list(range(len(frameList))), int(np.ceil(duration*framerate/len(frameList))))
+            return mapedFrameList
+        def find_nearest(array, value):
+            idx = (np.abs(array - value)).argmin()
+            return idx
+        timeMap = frame_time_map(frameList, self.duration, self.framerate)
+        drawTimes = np.linspace(0, t, self.duration*self.framerate)
+        make_frame = lambda t: frameList[timeMap[find_nearest(drawTimes, t)]]
+        animation = VideoClip(make_frame, duration=1)
+
+
     def add_frames(self, frameList):
         """
         User facing call to add list of frames.
@@ -58,7 +105,10 @@ class animation:
         Args:
             frameList: List of matplotlib figures [list of figure objects]
         """
-        self.__make_animation_from_raw_list__(frameList)
+        if self.mode == 'i':
+            self.__make_animation_from_raw_list_i__(frameList)
+        elif self.mode == 'm':
+            self.__make_animation_from_raw_list_f__(framelist)
 
     def add_frame(self, frame):
         """
