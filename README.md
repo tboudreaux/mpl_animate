@@ -15,6 +15,8 @@ or
 pip install mplEasyAnimate
 ```
 
+also you will need to install ffmpeg, find instructions for you OS of choice
+
 ## Adding Frames all at once
 
 mplEasyAnimate allow you to build up a list of matplotlib figures and turn them into an animation. You can send a full list in, this works well for small numbers of figures.
