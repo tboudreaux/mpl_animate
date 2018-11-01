@@ -3,8 +3,6 @@ import numpy as np
 import imageio
 from scipy.misc import imresize
 from tqdm import tqdm
-from moviepy.editor import VideoClip
-from moviepy.video.io.bindings import mplfig_to_npimage
 
 
 class animation:
@@ -17,21 +15,15 @@ class animation:
         size: X, Y dimensions of image (x, y) [float tuple] [default first frame size]
         pbar: Use tqdm progress bar [bool] [default False]
         mbs: image macro_block_size to use [int] [default 16]
-        mode: use imagio or moviepy [str] [default m]
-              m -> moviepy [generally faster]
-              i -> imagieo
+        dpi: image dpi [int] [defualt 150]
     """
-    
+
     def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150):
 
 
         self.filename = filename
         self.size = size
         self.mbs = mbs
-
-        if not self.__check_mode__(mode):
-            raise AttributeError("mode {} not recogninzed. Valid modes are 'm' for moviePy and 'i' for imageio")
-        
         self.mode = mode
         self.writer = imageio.get_writer(self.filename, mode='I', macro_block_size=self.mbs)
         self.pbar = pbar
@@ -45,7 +37,7 @@ class animation:
         ynew = img.shape[1] + self.mbs - img.shape[1]%self.mbs
         return imresize(img, (xnew, ynew))
 
-    def __make_animation_from_raw_list_i__(self, frameList):
+    def __make_animation_from_raw_list__(self, frameList):
         """
         Given list of matplotlib figures add them to animatio in mode i.
 
@@ -65,24 +57,6 @@ class animation:
             self.writer.append_data(image)
             self.frame_number += 1
 
-    def __make_animation_from_raw_list_m__(self, frameList):
-        """
-        Given list of matplotlib figures add them to animatio in mode m.
-
-        Args:
-            frameList: List of matplotlib figures [list of figure objects]
-        """
-        def frame_time_map(frameList, duration, frameRate):
-            mapedFrameList = np.repeat(list(range(len(frameList))), int(np.ceil(duration*framerate/len(frameList))))
-            return mapedFrameList
-        def find_nearest(array, value):
-            idx = (np.abs(array - value)).argmin()
-            return idx
-        timeMap = frame_time_map(frameList, self.duration, self.framerate)
-        drawTimes = np.linspace(0, t, self.duration*self.framerate)
-        make_frame = lambda t: frameList[timeMap[find_nearest(drawTimes, t)]]
-        animation = VideoClip(make_frame, duration=1)
-
 
     def add_frames(self, frameList):
         """
@@ -91,10 +65,7 @@ class animation:
         Args:
             frameList: List of matplotlib figures [list of figure objects]
         """
-        if self.mode == 'i':
-            self.__make_animation_from_raw_list_i__(frameList)
-        elif self.mode == 'm':
-            self.__make_animation_from_raw_list_f__(framelist)
+        self.__make_animation_from_raw_list__(frameList)
 
     def add_frame(self, frame):
         """
