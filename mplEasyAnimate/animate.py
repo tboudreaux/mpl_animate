@@ -1,4 +1,5 @@
 import io
+import numpy as np
 import imageio
 from scipy.misc import imresize
 from tqdm import tqdm
@@ -20,7 +21,9 @@ class animation:
               m -> moviepy [generally faster]
               i -> imagieo
     """
-    def __init__(self, filename, size=None, pbar=False, mbs=16, mode='m'):
+    
+    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150):
+
 
         self.filename = filename
         self.size = size
@@ -34,24 +37,7 @@ class animation:
         self.pbar = pbar
         self.frame_number = 0
         self.closed = False
-    
-
-    @staticmethod
-    def __check_mode__(mode):
-        """
-        Check if a mode is a valid mode.
-        
-        Args:
-            mode: mode to check [str]
-
-        Returnes:
-            True if mode is valid ('m' or 'i') 
-            False is mode is invalid
-        """
-        if mode == 'm' or mode == 'i':
-            return True
-        else:
-            return False
+        self.dpi = dpi
 
     def __scale_to_mbs_frame__(self, img):
         """Rescale image to be compatible with macro_block_scale."""
@@ -67,16 +53,16 @@ class animation:
             frameList: List of matplotlib figures [list of figure objects]
         """
         for frame in tqdm(frameList, disable=not self.pbar):
-            buf = io.BytesIO()
-            frame.savefig(buf, format='png', bbox_inches='tight')
-            buf.seek(0)
-            image = imageio.imread(buf)
+            if frame.dpi < self.dpi:
+                frame.dpi = self.dpi
+            frame.canvas.draw()
+            image = np.array(frame.canvas.renderer._renderer)
             if self.frame_number == 0 and self.size is None:
                 image = self.__scale_to_mbs_frame__(image)
                 self.size = image.shape
-            image = imresize(image, self.size)
+            if image.size != self.size:
+                image = imresize(image, self.size)
             self.writer.append_data(image)
-            buf.close()
             self.frame_number += 1
 
     def __make_animation_from_raw_list_m__(self, frameList):
@@ -168,7 +154,7 @@ class autoAnimation:
     def add_frame(self, frame):
         """
         User Facing method to add frame to AutoAnimation
-        
+
         Args:
             frame: matplotlig figure to become nth frame in animation [figure]
 
