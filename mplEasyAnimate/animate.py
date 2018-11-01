@@ -42,7 +42,7 @@ class animation:
         """
         for frame in tqdm(frameList, disable=not self.pbar):
             if frame.dpi < self.dpi:
-                frame.dpi = dpi
+                frame.dpi = self.dpi
             frame.canvas.draw()
             image = np.array(frame.canvas.renderer._renderer)
             if self.frame_number == 0 and self.size is None:
