@@ -1,4 +1,5 @@
 import io
+import numpy as np
 import imageio
 from scipy.misc import imresize
 from tqdm import tqdm
@@ -39,16 +40,16 @@ class animation:
             frameList: List of matplotlib figures [list of figure objects]
         """
         for frame in tqdm(frameList, disable=not self.pbar):
-            buf = io.BytesIO()
-            frame.savefig(buf, format='png', bbox_inches='tight')
-            buf.seek(0)
-            image = imageio.imread(buf)
+            # if frame.dpi < 300:
+            #     frame.dpi = 300
+            frame.canvas.draw()
+            image = np.array(frame.canvas.renderer._renderer)
             if self.frame_number == 0 and self.size is None:
                 image = self.__scale_to_mbs_frame__(image)
                 self.size = image.shape
-            image = imresize(image, self.size)
+            if image.size != self.size:
+                image = imresize(image, self.size)
             self.writer.append_data(image)
-            buf.close()
             self.frame_number += 1
 
     def add_frames(self, frameList):
@@ -118,7 +119,7 @@ class autoAnimation:
     def add_frame(self, frame):
         """
         User Facing method to add frame to AutoAnimation
-        
+
         Args:
             frame: matplotlig figure to become nth frame in animation [figure]
 
