@@ -16,7 +16,7 @@ class animation:
         pbar: Use tqdm progress bar [bool] [default False]
         mbs: image macro_block_size to use [int] [default 16]
     """
-    def __init__(self, filename, size=None, pbar=False, mbs=16):
+    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150):
 
         self.filename = filename
         self.size = size
@@ -25,6 +25,7 @@ class animation:
         self.pbar = pbar
         self.frame_number = 0
         self.closed = False
+        self.dpi = dpi
 
     def __scale_to_mbs_frame__(self, img):
         """Rescale image to be compatible with macro_block_scale."""
@@ -40,8 +41,8 @@ class animation:
             frameList: List of matplotlib figures [list of figure objects]
         """
         for frame in tqdm(frameList, disable=not self.pbar):
-            # if frame.dpi < 300:
-            #     frame.dpi = 300
+            if frame.dpi < self.dpi:
+                frame.dpi = dpi
             frame.canvas.draw()
             image = np.array(frame.canvas.renderer._renderer)
             if self.frame_number == 0 and self.size is None:
