@@ -15,6 +15,8 @@ or
 pip install mplEasyAnimate
 ```
 
+also you will need to install ffmpeg, find instructions for you OS of choice
+
 ## Adding Frames all at once
 
 mplEasyAnimate allow you to build up a list of matplotlib figures and turn them into an animation. You can send a full list in, this works well for small numbers of figures.
@@ -134,7 +136,7 @@ This should output something that looks like <br>
 ![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/example.gif?raw=true)
 
 Another example can be seen here, this shows three views of a the evolution of a Globular Cluster through a couple Mega Years <br>
-![Alt Text](https://j.gifs.com/JqpPV2.gif)
+![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/ClusterAnimation.gif?raw=true)
 
 ## Documentation
 I generally describe myself as a crazy script gibbon, meaning I have terrible development practices. I am far to lazy to learn how to use a proper documentation tool like Sphix so I have coppied all the pydoc output here, it can also be found in the docs directory in nice, easy to read, ASCII files. 
