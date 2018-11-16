@@ -6,7 +6,7 @@ I wanted to make a plot, then I wanted that plot to move into another plot. That
 If you are so inclined to have a look, or something is breaking for you here are the current known error. If you find another error please report it. I am a student so don't have a huge amount of time to dedicate to fixing these, but I will do my best with what time I have.
 
     1) Axes are not drawn properly in build 0.3.1
-    2) Memory leak exists in build 0.2.1 and up
+    2) Memory leak exists in build 0.2.1 and up (observed on Ubuntu 18.04)
 
 ## Installation
 You can either clone the repository and install it or install it via pip. Installing from the repository will get you the latest, possiblly broken, version. The pypi version is much more likley to be working, so if possible I recommend installing with pip.
