@@ -2,6 +2,11 @@
 
 I wanted to make a plot, then I wanted that plot to move into another plot. That was hard to do, then I foung imageio. But that was slow cause I had to save every figure to disk, then I rememberd that memory existed, then it was faster. Now I have packeged this so it is super easy, now we are here.
 
+## Current Errors:
+If you are so inclined to have a look, or something is breaking for you here are the current known error. If you find another error please report it. I am a student so don't have a huge amount of time to dedicate to fixing these, but I will do my best with what time I have.
+    1) Axes are not drawn properly in built 0.3.1
+    2) Memory leak exists in build 0.2.1 and up
+
 ## Installation
 You can either clone the repository and install it or install it via pip. Installing from the repository will get you the latest, possiblly broken, version. The pypi version is much more likley to be working, so if possible I recommend installing with pip.
 
