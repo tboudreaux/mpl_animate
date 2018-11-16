@@ -4,6 +4,7 @@ I wanted to make a plot, then I wanted that plot to move into another plot. That
 
 ## Current Errors:
 If you are so inclined to have a look, or something is breaking for you here are the current known error. If you find another error please report it. I am a student so don't have a huge amount of time to dedicate to fixing these, but I will do my best with what time I have.
+
     1) Axes are not drawn properly in built 0.3.1
     2) Memory leak exists in build 0.2.1 and up
 
