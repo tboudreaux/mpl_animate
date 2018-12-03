@@ -18,18 +18,21 @@ class animation:
         dpi: image dpi [int] [defualt 150]
     """
 
-    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150):
-
-
+    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5):
         self.filename = filename
         self.size = size
         self.mbs = mbs
-        self.mode = mode
-        self.writer = imageio.get_writer(self.filename, mode='I', macro_block_size=self.mbs)
+        self.writer = imageio.get_writer(self.filename, mode='I', macro_block_size=self.mbs, fps=fps)
         self.pbar = pbar
         self.frame_number = 0
         self.closed = False
         self.dpi = dpi
+        self.cframe = None
+        if init_frame and init_ax:
+            self.__init_frame__(init_frame, init_ax)
+
+    def __init_frame__(self, init_frame, init_ax):
+        self.cframe = init_frame.canvas.copy_from_bbox(init_ax.bbox)
 
     def __scale_to_mbs_frame__(self, img):
         """Rescale image to be compatible with macro_block_scale."""
@@ -37,7 +40,7 @@ class animation:
         ynew = img.shape[1] + self.mbs - img.shape[1]%self.mbs
         return imresize(img, (xnew, ynew))
 
-    def __make_animation_from_raw_list__(self, frameList):
+    def __make_animation_from_raw_list__(self, frameList, fast=True):
         """
         Given list of matplotlib figures add them to animatio in mode i.
 
@@ -47,6 +50,7 @@ class animation:
         for frame in tqdm(frameList, disable=not self.pbar):
             if frame.dpi < self.dpi:
                 frame.dpi = self.dpi
+            frame.patch.set_facecolor('white')
             frame.canvas.draw()
             image = np.array(frame.canvas.renderer._renderer)
             if self.frame_number == 0 and self.size is None:
@@ -58,16 +62,16 @@ class animation:
             self.frame_number += 1
 
 
-    def add_frames(self, frameList):
+    def add_frames(self, frameList, fast=True):
         """
         User facing call to add list of frames.
 
         Args:
             frameList: List of matplotlib figures [list of figure objects]
         """
-        self.__make_animation_from_raw_list__(frameList)
+        self.__make_animation_from_raw_list__(frameList, fast=fast)
 
-    def add_frame(self, frame):
+    def add_frame(self, frame, fast=True):
         """
         User facing call to add single frame.
 
@@ -75,7 +79,7 @@ class animation:
             frame: matplotlig figure to be added to animation [figure]
 
         """
-        self.__make_animation_from_raw_list__([frame])
+        self.__make_animation_from_raw_list__([frame], fast=fast)
 
     def close(self):
         """Safe close of animation."""
