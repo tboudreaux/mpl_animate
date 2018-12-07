@@ -158,6 +158,7 @@ mplEasyAnimate.animation = class animation(builtins.object)
  |      size: X, Y dimensions of image (x, y) [float tuple] [default first frame size]
  |      pbar: Use tqdm progress bar [bool] [default False]
  |      mbs: image macro_block_size to use [int] [default 16]
+ |      fps: output video frames per second [int] [default 30] 
  |
  |  Methods defined here:
  |
