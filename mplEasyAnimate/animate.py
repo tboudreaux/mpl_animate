@@ -3,6 +3,7 @@ import numpy as np
 import imageio
 from scipy.misc import imresize
 from tqdm import tqdm
+import matplotlib
 
 
 class animation:
@@ -16,9 +17,18 @@ class animation:
         pbar: Use tqdm progress bar [bool] [default False]
         mbs: image macro_block_size to use [int] [default 16]
         dpi: image dpi [int] [defualt 150]
+        init_frame: canvas to draw on, use to speed up animation
+                    user needs to handel clearing the canvas [figure]
+                    [default None]
+        init_ax: axes to go with init_frame [axis] [default None]
+        fps: frames per second to draw animation at [int] [default 5]
+        ineractive: disable matplotlib interactive mode on animation start
+                    this helps mitigate a memory leak present in ipython when
+                    plotting many figures. Interactive more will be resumes 
+                    on close of figure [bool] [default False]. 
     """
 
-    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5):
+    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5, interactive=False):
         self.filename = filename
         self.size = size
         self.mbs = mbs
@@ -30,6 +40,7 @@ class animation:
         self.cframe = None
         if init_frame and init_ax:
             self.__init_frame__(init_frame, init_ax)
+        matplotlib.interactive(interactive)
 
     def __init_frame__(self, init_frame, init_ax):
         self.cframe = init_frame.canvas.copy_from_bbox(init_ax.bbox)
@@ -175,11 +186,12 @@ class autoAnimation:
             self.progress_bar.close()
 
             self.closed = True
+            matplotlib.interactive(True)
 
     def __repr__(self):
         """Auto Animation repr, returns composed animation repr."""
         return str(self.anim)
-            
+
     def __del__(self):
         """Invocation of safe close on descope of animation object."""
         self.close()
