@@ -2,12 +2,7 @@
 
 I wanted to make a plot, then I wanted that plot to move into another plot. That was hard to do, then I foung imageio. But that was slow cause I had to save every figure to disk, then I rememberd that memory existed, then it was faster. Now I have packeged this so it is super easy, now we are here.
 
-## Current Errors:
-If you are so inclined to have a look, or something is breaking for you here are the current known error. If you find another error please report it. I am a student so don't have a huge amount of time to dedicate to fixing these, but I will do my best with what time I have.
-
-    1) Memory leak exists in build 0.2.1 and up (observed on Ubuntu 18.04)
-    
-Please note: If you are having issues with axes not being drawn correctly please update to the latest build via pip, this issue has been fixed.
+Note that the memory leak which was present when using mplEasyAnimate with an ipython kernal has been fixed. The issue had to do with how ipython stored generated figures even if those figures were deleted. The figures were placed out of reach of garbege collection (this is a known bug) and therefore built up until the kernel was restarted. The solution to this has been to have an animation object turn off interactive mode kernel wide when instantiated and then turn it back on when animation.close() is called. If for some reason you need interactive mode activated when creating your animation you can overide this behavior by passing interactive=True to the animation object at time of instantiation; however, this will lead to a memory leak.
 
 ## Installation
 You can either clone the repository and install it or install it via pip. Installing from the repository will get you the latest, possiblly broken, version. The pypi version is much more likley to be working, so if possible I recommend installing with pip.
@@ -24,7 +19,7 @@ pip install mplEasyAnimate
 
 also you will need to install ffmpeg, find instructions for you OS of choice
 
-## Adding Frames all at once
+## Adding Frames all at once (not recommended)
 
 mplEasyAnimate allow you to build up a list of matplotlib figures and turn them into an animation. You can send a full list in, this works well for small numbers of figures.
 
@@ -73,16 +68,16 @@ for coord in guass:
     ax.plot(coord[0], coord[1], 'o')
     figList.append(fig)
     
-anim = animation(filename)
+anim = animation(filename, fps=30)
 anim.add_frames(figList)
 anim.close()
 plt.ion()
 ```
 
-Basically this keeps jupyter from rendering every figure you make.
+Basically this keeps jupyter from rendering every figure you make. Note that this is a bad way of making animations if you have more than say 20 frames as it will force your computer to store each of those figures. For animations with thousands of frames than can require more memory than can be allocated and cause your program to crash on an OSError.
 
 
-## Dynamically Adding Frames
+## Dynamically Adding Frames (recommended)
 However, matplotlib will get uphappy if you have too many figures open at once. I reccomend that for more than say 10 figures you dynamically add them (the figures) to the animation instead of doing it all at the end. See below
 
 ```python
@@ -98,7 +93,7 @@ N = 50
 
 guass = np.random.normal(size=(t, 2, N))
 
-anim = animation(filename)
+anim = animation(filename, fps=60)
 figList = list()
 for i, coord in enumerate(guass):
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
