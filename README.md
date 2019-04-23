@@ -140,6 +140,49 @@ This should output something that looks like <br>
 Another example can be seen here, this shows three views of a the evolution of a Globular Cluster through a couple Mega Years <br>
 ![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/ClusterAnimation.gif?raw=true)
 
+## Speed
+There are some ways to get speed / preformance improvments when making an animation
+
+ 1) Turn down the dpi, when you make an animation objects you can set the dpi as a keyword argument, lower dpis will render faster
+ 2) Reuse the same figure, consider the following code and how it reuses the same figure instead of creating a new one for each frame
+
+```python
+ number = 100
+rlayers = 100
+
+circ, equib = make_circ(1, 1, number)
+anim = animation('Animations/DrawStar_{}x{}.mp4'.format(number, rlayers), fps=30, dpi=5)
+fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+ax.set_xlim(-1.1, 1.1)
+ax.set_ylim(-1.1, 1.1)
+ax.axis('off')
+
+for particle in tqdm(range(1, number)):
+    ax.plot(circ[particle-1:particle+1, 0, 0, 0], circ[particle-1:particle+1, 0, 0, 1], 'C0o-', linewidth=1)
+
+    anim.add_frame(fig)
+
+
+d0 = np.pi/(rlayers/2)
+for theta in tqdm(np.arange(d0, 2*np.pi-d0/2, d0)):
+    R = np.sqrt((circ[:, 0, 0, 0]**2) + (circ[:, 0, 0, 1]**2))
+    ax.plot(R*np.cos(theta), R*np.sin(theta), 'C0o-', linewidth=1)
+    
+    anim.add_frame(fig)
+    
+for theta in tqdm(np.arange(d0, 2*np.pi+d0, d0)):
+    R = np.sqrt((circ[:, 0, 0, 0]**2) + (circ[:, 0, 0, 1]**2))
+    
+    x1, y1 = R*np.cos(theta), R*np.sin(theta)
+    x2, y2 = R*np.cos(theta+d0), R*np.sin(theta+d0)
+    ax.plot([x1, x2], [y1, y2], 'C0', linewidth=1)
+    anim.add_frame(fig)
+
+plt.close(fig)
+anim.close()
+```
+ 3) turn off the axes, drawing the x and y axes is one of the slowest parts of matplotlib's drawing process, if they are not nessicairy for the animation consider turning them off (see the above code block).
+
 ## Documentation
 I generally describe myself as a crazy script gibbon, meaning I have terrible development practices. I am far to lazy to learn how to use a proper documentation tool like Sphix so I have coppied all the pydoc output here, it can also be found in the docs directory in nice, easy to read, ASCII files. 
 
