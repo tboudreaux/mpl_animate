@@ -147,7 +147,7 @@ There are some ways to get speed / preformance improvments when making an animat
  2) Reuse the same figure, consider the following code and how it reuses the same figure instead of creating a new one for each frame
 
 ```python
- number = 100
+number = 100
 rlayers = 100
 
 circ, equib = make_circ(1, 1, number)
