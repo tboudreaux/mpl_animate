@@ -98,14 +98,9 @@ figList = list()
 for i, coord in enumerate(guass):
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     ax.plot(coord[0], coord[1], 'o')
-    figList.append(fig)
-    if i % 10 == 0:
-        anim.add_frames(figList)
-        [plt.close(x) for x in figList]
-        figList = list()
-        
-        
-plt.close('all')
+    anim.add_frames(fig)
+    plt.close(fig)
+
 anim.close()
 ```
 
