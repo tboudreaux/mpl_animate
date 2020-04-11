@@ -1,7 +1,8 @@
 import io
 import numpy as np
 import imageio
-from scipy.misc import imresize
+from skimage.transform import resize
+from skimage import img_as_ubyte
 from tqdm import tqdm
 import matplotlib
 
@@ -49,7 +50,7 @@ class animation:
         """Rescale image to be compatible with macro_block_scale."""
         xnew = img.shape[0] + self.mbs - img.shape[0]%self.mbs
         ynew = img.shape[1] + self.mbs - img.shape[1]%self.mbs
-        return imresize(img, (xnew, ynew))
+        return (255*resize(img, (xnew, ynew))).astype(np.uint8)
 
     def __make_animation_from_raw_list__(self, frameList, fast=True):
         """
@@ -68,7 +69,7 @@ class animation:
                 image = self.__scale_to_mbs_frame__(image)
                 self.size = image.shape
             if image.size != self.size:
-                image = imresize(image, self.size)
+                image = (255*resize(image, self.size)).astype(np.uint8)
             self.writer.append_data(image)
             self.frame_number += 1
 

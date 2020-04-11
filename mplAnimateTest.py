@@ -10,7 +10,7 @@ from mplEasyAnimate import animation
 def main():
     figList = list()
     filename = 'TestAnimation.mp4'
-    t = 500
+    t = 100
     N = 100
 
     guass = np.random.normal(size=(t, 2, N))
@@ -25,4 +25,5 @@ def main():
     anim.close()
 
 if __name__ == '__main__':
-    cProfile.run('main()')
+    main()
+    # cProfile.run('main()')
