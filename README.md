@@ -1,6 +1,6 @@
 # What's New?
-0.4.2 -> Added Ability to Change the Facecolor of the saved figure
-0.4.1 -> Upaded the image loading away from scipy.misc to skimage
+	- Added Ability to Change the Facecolor of the saved figure
+	- Upaded the image loading away from scipy.misc to skimage
 
 # Super simple (and likely stupid) way of making animations with maptlotlib
 
