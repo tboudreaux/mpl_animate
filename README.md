@@ -2,8 +2,6 @@
 
 I wanted to make a plot, then I wanted that plot to move into another plot. That was hard to do, then I foung imageio. But that was slow cause I had to save every figure to disk, then I rememberd that memory existed, then it was faster. Now I have packeged this so it is super easy, now we are here.
 
-Note that the memory leak which was present when using mplEasyAnimate with an ipython kernal has been fixed. The issue had to do with how ipython stored generated figures even if those figures were deleted. The figures were placed out of reach of garbege collection (this is a known bug) and therefore built up until the kernel was restarted. The solution to this has been to have an animation object turn off interactive mode kernel wide when instantiated and then turn it back on when animation.close() is called. If for some reason you need interactive mode activated when creating your animation you can overide this behavior by passing interactive=True to the animation object at time of instantiation; however, this will lead to a memory leak.
-
 ## Installation
 You can either clone the repository and install it or install it via pip. Installing from the repository will get you the latest, possiblly broken, version. The pypi version is much more likley to be working, so if possible I recommend installing with pip.
 
