@@ -52,7 +52,7 @@ class animation:
         ynew = img.shape[1] + self.mbs - img.shape[1]%self.mbs
         return (255*resize(img, (xnew, ynew))).astype(np.uint8)
 
-    def __make_animation_from_raw_list__(self, frameList, fast=True):
+    def __make_animation_from_raw_list__(self, frameList, fast=True, facecolor='white'):
         """
         Given list of matplotlib figures add them to animatio in mode i.
 
@@ -62,7 +62,7 @@ class animation:
         for frame in tqdm(frameList, disable=not self.pbar):
             if frame.dpi < self.dpi:
                 frame.dpi = self.dpi
-            frame.patch.set_facecolor('white')
+            frame.patch.set_facecolor(facecolor)
             frame.canvas.draw()
             image = np.array(frame.canvas.renderer._renderer)
             if self.frame_number == 0 and self.size is None:
@@ -74,16 +74,16 @@ class animation:
             self.frame_number += 1
 
 
-    def add_frames(self, frameList, fast=True):
+    def add_frames(self, frameList, fast=True, facecolor='white'):
         """
         User facing call to add list of frames.
 
         Args:
             frameList: List of matplotlib figures [list of figure objects]
         """
-        self.__make_animation_from_raw_list__(frameList, fast=fast)
+        self.__make_animation_from_raw_list__(frameList, fast=fast, facecolor=facecolor)
 
-    def add_frame(self, frame, fast=True):
+    def add_frame(self, frame, fast=True, facecolor='white'):
         """
         User facing call to add single frame.
 
@@ -91,7 +91,7 @@ class animation:
             frame: matplotlig figure to be added to animation [figure]
 
         """
-        self.__make_animation_from_raw_list__([frame], fast=fast)
+        self.__make_animation_from_raw_list__([frame], fast=fast, facecolor=facecolor)
 
     def close(self):
         """Safe close of animation."""
