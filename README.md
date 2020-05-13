@@ -1,3 +1,7 @@
+# What's New?
+0.4.2 -> Added Ability to Change the Facecolor of the saved figure
+0.4.1 -> Upaded the image loading away from scipy.misc to skimage
+
 # Super simple (and likely stupid) way of making animations with maptlotlib
 
 I wanted to make a plot, then I wanted that plot to move into another plot. That was hard to do, then I foung imageio. But that was slow cause I had to save every figure to disk, then I rememberd that memory existed, then it was faster. Now I have packeged this so it is super easy, now we are here.
