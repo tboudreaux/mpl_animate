@@ -52,12 +52,13 @@ class animation:
         ynew = img.shape[1] + self.mbs - img.shape[1]%self.mbs
         return (255*resize(img, (xnew, ynew))).astype(np.uint8)
 
-    def __make_animation_from_raw_list__(self, frameList, fast=True, facecolor='white'):
+    def __make_animation_from_raw_list__(self, frameList, facecolor='white'):
         """
         Given list of matplotlib figures add them to animatio in mode i.
 
         Args:
             frameList: List of matplotlib figures [list of figure objects]
+            facecolor: Facecolor of canvas when written to animation [string: default->'white']
         """
         for frame in tqdm(frameList, disable=not self.pbar):
             if frame.dpi < self.dpi:
@@ -74,24 +75,26 @@ class animation:
             self.frame_number += 1
 
 
-    def add_frames(self, frameList, fast=True, facecolor='white'):
+    def add_frames(self, frameList, facecolor='white'):
         """
         User facing call to add list of frames.
 
         Args:
             frameList: List of matplotlib figures [list of figure objects]
+            facecolor: Facecolor of canvas when written to animation [string: default->'white']
         """
-        self.__make_animation_from_raw_list__(frameList, fast=fast, facecolor=facecolor)
+        self.__make_animation_from_raw_list__(frameList, facecolor=facecolor)
 
-    def add_frame(self, frame, fast=True, facecolor='white'):
+    def add_frame(self, frame, facecolor='white'):
         """
         User facing call to add single frame.
 
         Args:
             frame: matplotlig figure to be added to animation [figure]
+            facecolor: Facecolor of canvas when written to animation [string: default->'white']
 
         """
-        self.__make_animation_from_raw_list__([frame], fast=fast, facecolor=facecolor)
+        self.__make_animation_from_raw_list__([frame], facecolor=facecolor)
 
     def close(self):
         """Safe close of animation."""
