@@ -102,11 +102,17 @@ class animation:
         """
         return self
 
-    def __exit__(self):
+    def __exit__(self, exc_type, exc_value, tb):
         """
         Context Manager Exit
         """
-        self.close()
+        if exc_type is not None:
+            traceback.print_exception(exc_type, exc_value, tb)
+            # return False # uncomment to pass exception through
+
+        self.closed = True
+        self.writer.close()
+        return True
 
     def close(self):
         """Safe close of animation."""
