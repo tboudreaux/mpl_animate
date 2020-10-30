@@ -4,14 +4,14 @@ from os import path
 HERE = path.abspath(path.dirname(__file__))
 
 setup(name='mplEasyAnimate',
-      version='0.4.1',
+      version='0.5',
       description='Super Simple Library for matplotlib animation',
       url='https://github.com/tboudreaux/mpl_animate',
       author='Thomas Boudreaux',
       author_email='thomas@boudreauxmail.com',
       license='MIT',
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 4 - Beta',
           'Intended Audience :: Science/Research',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python :: 3'
