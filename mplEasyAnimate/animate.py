@@ -96,6 +96,12 @@ class animation:
         """
         self.__make_animation_from_raw_list__([frame], facecolor=facecolor)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self):
+        self.close()
+
     def close(self):
         """Safe close of animation."""
         self.closed = True
