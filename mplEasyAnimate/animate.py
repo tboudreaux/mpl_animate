@@ -5,6 +5,7 @@ from skimage.transform import resize
 from skimage import img_as_ubyte
 from tqdm import tqdm
 import matplotlib
+import traceback
 
 
 class animation:
@@ -108,7 +109,6 @@ class animation:
         """
         if exc_type is not None:
             traceback.print_exception(exc_type, exc_value, tb)
-            # return False # uncomment to pass exception through
 
         self.closed = True
         self.writer.close()
