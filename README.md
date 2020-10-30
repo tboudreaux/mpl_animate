@@ -96,11 +96,10 @@ N = 50
 guass = np.random.normal(size=(t, 2, N))
 
 anim = animation(filename, fps=60)
-figList = list()
 for i, coord in enumerate(guass):
     fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     ax.plot(coord[0], coord[1], 'o')
-    anim.add_frames(fig)
+    anim.add_frame(fig)
     plt.close(fig)
 
 anim.close()
@@ -108,30 +107,33 @@ anim.close()
 
 here every 10 frames I add all the frames to the animation and then I flush the buffer at the end to make sure that the animation is readable.
 
-## AutoAnimations
-AutoAnimations are still (honestly like this entire project) a work in progress. However, they are eventually ment to be the main way that the user interfaces with mplEasyAnimate. The basic idea is that you pass an AutoAnimation one frame at a time and it will automatically deal with buffereing them and writing them to memory for you. Further down the line the goal is to make that an async processes to further limit overhead and hopefully make animations go faster (they still take sooo long to produce!). An example of how to use AutoAnimations is below:
+
+## Context Manager
+mplEasyAnimate can easily called using context managers which will take care of closing the files for you, here is an example
 ```python
-import numpy as np
 import matplotlib.pyplot as plt
-import mplEasyAnimate as mple
-from tqdm import tqdm
+import numpy as np
+
+from mplEasyAnimate import animation
 
 
-def mkdata():
-    return np.linspace(0, 10, 10), np.random.uniform(size=(10))
+filename = 'TestAnimation.mp4'
+t = 100
+N = 50
 
+guass = np.random.normal(size=(t, 2, N))
 
-anim = mple.AutoAnimation('Test2.mp4', 10, framebuffer=5, pbar=True)
-for i in range(10):
-    fig, ax = plt.subplots(1, 1)
-    x, y = mkdata()
-    ax.plot(x, y)
-    anim.add_frame(fig)
-    plt.close(fig)
-anim.close()
+with animation(filename, fps=60) as anim:
+	for i, coord in enumerate(guass):
+		fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+		ax.plot(coord[0], coord[1], 'o')
+		anim.add_frames(fig)
+		plt.close(fig)
+
 ```
 
-This should output something that looks like <br>
+## Some Examples
+Here are some examples of output<br>
 ![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/example.gif?raw=true)
 
 Another example can be seen here, this shows three views of a the evolution of a Globular Cluster through a couple Mega Years <br>
