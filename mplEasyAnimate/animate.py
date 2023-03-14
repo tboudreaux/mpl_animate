@@ -30,7 +30,7 @@ class animation:
                     on close of figure [bool] [default False]. 
     """
 
-    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5, interactive=False):
+    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5, interactive=False,autoSmooth=False,smoothingFrames=5, saveFinalFrame=False):
         self.filename = filename
         self.size = size
         self.mbs = mbs
@@ -43,6 +43,13 @@ class animation:
         if init_frame and init_ax:
             self.__init_frame__(init_frame, init_ax)
         matplotlib.interactive(interactive)
+        if autoSmooth:
+            assert smoothingFrames > 0
+
+        self._autosmooth = autoSmooth
+        self._prevFrame = None
+        self._smoothingFrames = smoothingFrames
+        self._saveFinalFrame = saveFinalFrame
 
     def __init_frame__(self, init_frame, init_ax):
         self.cframe = init_frame.canvas.copy_from_bbox(init_ax.bbox)
@@ -52,6 +59,25 @@ class animation:
         xnew = img.shape[0] + self.mbs - img.shape[0]%self.mbs
         ynew = img.shape[1] + self.mbs - img.shape[1]%self.mbs
         return (255*resize(img, (xnew, ynew))).astype(np.uint8)
+
+
+    def _write_frame(self, frame):                
+        self.writer.append_data(frame)
+        self.frame_number += 1
+        self._prevFrame = frame
+
+
+    def _insert_smoothed_frames(self, image):
+        if self._prevFrame is not None:
+            finalImage = image.copy()
+            transitionFrame = np.zeros_like(finalImage)
+            for frameID in range(self._smoothingFrames):
+                prevWeight = 1-((frameID+1)/self._smoothingFrames)
+                finalWeight = (frameID+1)/self._smoothingFrames
+                transitionFrame = prevWeight * self._prevFrame + finalWeight*finalImage
+                self._write_frame(transitionFrame.astype(np.uint8))
+                
+
 
     def __make_animation_from_raw_list__(self, frameList, facecolor='white'):
         """
@@ -72,9 +98,9 @@ class animation:
                 self.size = image.shape
             if image.size != self.size:
                 image = (255*resize(image, self.size)).astype(np.uint8)
-            self.writer.append_data(image)
-            self.frame_number += 1
-
+            if self._autosmooth:
+                self._insert_smoothed_frames(image)
+            self._write_frame(image)
 
     def add_frames(self, frameList, facecolor='white'):
         """
@@ -109,6 +135,10 @@ class animation:
         """
         if exc_type is not None:
             traceback.print_exception(exc_type, exc_value, tb)
+        print("HERE")
+        if self._prevFrame is not None and self._saveFinalFrame:
+            print("HERE")
+            imageio.mimsave("finalFrame.png", self._prevFrame)
 
         self.closed = True
         self.writer.close()
