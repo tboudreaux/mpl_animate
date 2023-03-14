@@ -30,7 +30,7 @@ class animation:
                     on close of figure [bool] [default False]. 
     """
 
-    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5, interactive=False):
+    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5, interactive=None):
         self.filename = filename
         self.size = size
         self.mbs = mbs
@@ -42,7 +42,12 @@ class animation:
         self.cframe = None
         if init_frame and init_ax:
             self.__init_frame__(init_frame, init_ax)
-        matplotlib.interactive(interactive)
+
+        self.init_interactive = matplotlib.is_interactive()
+        if self.init_interactive and not interactive:
+            matplotlib.interactive(False)
+        else:
+            matplotlib.interactive(interactive)
 
     def __init_frame__(self, init_frame, init_ax):
         self.cframe = init_frame.canvas.copy_from_bbox(init_ax.bbox)
@@ -109,9 +114,10 @@ class animation:
         """
         if exc_type is not None:
             traceback.print_exception(exc_type, exc_value, tb)
+        if self.init_interactive:
+            matplotlib.interactive(True)
 
-        self.closed = True
-        self.writer.close()
+        self.close()
         return True
 
     def close(self):
