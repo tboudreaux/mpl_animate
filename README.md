@@ -79,7 +79,7 @@ plt.ion()
 Basically this keeps jupyter from rendering every figure you make. Note that this is a bad way of making animations if you have more than say 20 frames as it will force your computer to store each of those figures. For animations with thousands of frames than can require more memory than can be allocated and cause your program to crash on an OSError.
 
 
-## Dynamically Adding Frames (recommended)
+## Dynamically Adding Frames (sorta recommended)
 However, matplotlib will get uphappy if you have too many figures open at once. I reccomend that for more than say 10 figures you dynamically add them (the figures) to the animation instead of doing it all at the end. See below
 
 ```python
@@ -108,7 +108,7 @@ anim.close()
 here every 10 frames I add all the frames to the animation and then I flush the buffer at the end to make sure that the animation is readable.
 
 
-## Context Manager
+## Context Manager (very recommended)
 mplEasyAnimate can easily called using context managers which will take care of closing the files for you, here is an example
 ```python
 import matplotlib.pyplot as plt
@@ -127,7 +127,30 @@ with animation(filename, fps=60) as anim:
 	for i, coord in enumerate(guass):
 		fig, ax = plt.subplots(1, 1, figsize=(10, 7))
 		ax.plot(coord[0], coord[1], 'o')
-		anim.add_frames(fig)
+		anim.add_frame(fig)
+		plt.close(fig)
+
+```
+## Smoothing
+mplEasyAnimate can automatically apply a cross dissolve between frames. This is turned on with the autoSmoothing parameter to animation. There is also a smoothingFrames parameter which describes how many frames will be used to dissolve. Note that this smoothes the entire frame, not just the graphed data.
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+from mplEasyAnimate import animation
+
+
+filename = 'TestAnimation.mp4'
+t = 100
+N = 50
+
+guass = np.random.normal(size=(t, 2, N))
+
+with animation(filename, fps=60, autoSmooth=True, smoothingFrame=60) as anim:
+	for i, coord in enumerate(guass):
+		fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+		ax.plot(coord[0], coord[1], 'o')
+		anim.add_frame(fig)
 		plt.close(fig)
 
 ```
