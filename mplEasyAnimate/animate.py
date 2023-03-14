@@ -6,6 +6,7 @@ from skimage import img_as_ubyte
 from tqdm import tqdm
 import matplotlib
 import traceback
+from PIL import Image
 
 
 class animation:
@@ -30,7 +31,7 @@ class animation:
                     on close of figure [bool] [default False]. 
     """
 
-    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5, interactive=None,autoSmooth=False,smoothingFrames=5, saveFinalFrame=False):
+    def __init__(self, filename, size=None, pbar=False, mbs=16, dpi=150, init_frame = None, init_ax=None, fps=5, interactive=False,autoSmooth=False,smoothingFrames=5, saveFinalFrame=False):
         self.filename = filename
         self.size = size
         self.mbs = mbs
@@ -134,6 +135,10 @@ class animation:
         """
         return self
 
+    def _save_frame_as_png(self, frame, filename):
+        im = Image.fromarray(frame)
+        im.save(filename)
+
     def __exit__(self, exc_type, exc_value, tb):
         """
         Context Manager Exit
@@ -142,10 +147,8 @@ class animation:
             traceback.print_exception(exc_type, exc_value, tb)
         if self.init_interactive:
             matplotlib.interactive(True)
-        print("HERE")
         if self._prevFrame is not None and self._saveFinalFrame:
-            print("HERE")
-            imageio.mimsave("finalFrame.png", self._prevFrame)
+            self._save_frame_as_png(self._prevFrame, "finalFrame.png")
 
         self.close()
         return True

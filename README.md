@@ -155,6 +155,21 @@ with animation(filename, fps=60, autoSmooth=True, smoothingFrame=60) as anim:
 
 ```
 
+## Saveing the Final Frame
+Sometimes when you are giving a talk you want to transition to a slide where the image looks the same as the final frame of the animation; however, because mplEasyAnimate rescales some stuff internally just saving the figure with matplotlib won't provide a seemless transition. mplEasyAnimate allows you to save the final frame of an animation to a png which you can use to make these transitions smooth!
+
+```python
+with animation(filename, fps=60, saveFinalFrame=True) as anim:
+	for i, coord in enumerate(guass):
+		fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+		ax.plot(coord[0], coord[1], 'o')
+		anim.add_frame(fig)
+		plt.close(fig)
+
+```
+
+This will produce a file called "finalFrame.png" in your current working directory
+
 ## Some Examples
 Here are some examples of output<br>
 ![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/example.gif?raw=true)
