@@ -21,6 +21,10 @@ pip install mplEasyAnimate
 
 also you will need to install ffmpeg, find instructions for you OS of choice
 
+## API Documentation
+mplEasyAnimate has a relativley simple API, only making use of one (animation) class.
+The API is however well documented in the code as well as <a href="https://algebrist.com/~tboudreaux/docs/mplEasyAnimate/index.html#">here</a>
+
 ## Adding Frames all at once (not recommended)
 
 mplEasyAnimate allow you to build up a list of matplotlib figures and turn them into an animation. You can send a full list in, this works well for small numbers of figures.
@@ -220,62 +224,3 @@ anim.close()
 ```
  3) turn off the axes, drawing the x and y axes is one of the slowest parts of matplotlib's drawing process, if they are not nessicairy for the animation consider turning them off (see the above code block).
 
-## Documentation
-I generally describe myself as a crazy script gibbon, meaning I have terrible development practices. I am far to lazy to learn how to use a proper documentation tool like Sphix so I have coppied all the pydoc output here, it can also be found in the docs directory in nice, easy to read, ASCII files. 
-
-<pre>
-mplEasyAnimate.animation = class animation(builtins.object)
- |  Animation class. This class requires will take in a matplotib figure
- |  object and add it to an imageio open video file.
- |
- |  Attributes:
- |      filename: Filename to write animation too [str]
- |      size: X, Y dimensions of image (x, y) [float tuple] [default first frame size]
- |      pbar: Use tqdm progress bar [bool] [default False]
- |      mbs: image macro_block_size to use [int] [default 16]
- |      fps: output video frames per second [int] [default 30] 
- |
- |  Methods defined here:
- |
- |  __del__(self)
- |      Invocation of safe close on descope of animation object.
- |
- |  __init__(self, filename, size=None, pbar=False, mbs=16)
- |      Initialize self.  See help(type(self)) for accurate signature.
- |
- |  __make_animation_from_raw_list__(self, frameList)
- |      Given list of matplotlib figures add them to animatio.
- |
- |      Args:
- |          frameList: List of matplotlib figures [list of figure objects]
- |
- |  __repr__(self)
- |      String Representation.
- |
- |  __scale_to_mbs_frame__(self, img)
- |      Rescale image to be compatible with macro_block_scale.
- |
- |  add_frame(self, frame)
- |      User facing call to add single frame.
- |
- |      Args:
- |          frame: matplotlig figure to be added to animation [figure]
- |
- |  add_frames(self, frameList)
- |      User facing call to add list of frames.
- |
- |      Args:
- |          frameList: List of matplotlib figures [list of figure objects]
- |
- |  close(self)
- |      Safe close of animation.
- |
- |  ----------------------------------------------------------------------
- |  Data descriptors defined here:
- |
- |  __dict__
- |      dictionary for instance variables (if defined)
- |
- |  __weakref__
- |      list of weak references to the object (if defined)
-</pre>
