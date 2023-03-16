@@ -8,6 +8,7 @@ def mkdata():
 
 with mple.animation("SmoothingTest.mp4", dpi=50, fps=60, autoSmooth=True, smoothingFrames=60, saveFinalFrame=True) as anim:
     for i in tqdm(range(10)):
+        print(anim)
         fig, ax = plt.subplots(1, 1)
         x, y = mkdata()
         ax.plot(x, y)

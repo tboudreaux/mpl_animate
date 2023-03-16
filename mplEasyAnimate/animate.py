@@ -26,6 +26,8 @@ class animation:
         Flag controlling use of a tqdm progress bar
     dpi : int
         image dpi (dots per inch)
+    fps : int
+        frames per second to draw animation at
 
     Examples:
     --------
@@ -115,6 +117,7 @@ class animation:
                 macro_block_size=self._mbs,
                 fps=fps
                 )
+        self.fps = fps
         self.pbar = pbar
         self._frame_number = 0
         self._closed = False
@@ -339,7 +342,5 @@ class animation:
 
     def __repr__(self):
         """String Representation."""
-        out = list()
-        out.append('Animation size: {}'.format(self.size))
-        out.append('Animation path: {}'.format(self.filename))
-        return '\n'.join(out)
+        out = f"<{self.__class__.__name__} - {self.filename} : {self.fps} fps : dpi : {self.dpi}>"
+        return out
