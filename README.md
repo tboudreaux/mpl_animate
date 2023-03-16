@@ -182,6 +182,12 @@ Here are some examples of output<br>
 Another example can be seen here, this shows three views of a the evolution of a Globular Cluster through a couple Mega Years <br>
 ![Alt Text](https://github.com/tboudreaux/mpl_animate/blob/master/examples/ClusterAnimation.gif?raw=true)
 
+An Example showing the developement of exoplanet statistics between the 90s and the 2020s (Credit: <a href="https://www.kerockcliffe.com/">Keighley Rockcliffe</a>)
+
+
+https://user-images.githubusercontent.com/6620251/225698910-994ea8a3-496c-4331-9ddb-4acff3405f1f.mp4
+
+
 ## Speed
 There are some ways to get speed / preformance improvments when making an animation
 
