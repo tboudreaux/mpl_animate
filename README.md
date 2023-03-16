@@ -1,4 +1,5 @@
 # What's New?
+	- Added the ability to transition between added frames with either a cross dissolve (built in) or using a custom transition function
 	- Added Ability to Change the Facecolor of the saved figure
 	- Upaded the image loading away from scipy.misc to skimage
 
